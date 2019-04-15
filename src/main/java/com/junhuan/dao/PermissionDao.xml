@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.junhuan.dao.PermissionDao">
+<resultMap type="Permission" id="resultPermission">
+		<id property="id" column="id" />
+		<result property="p_no" column="no" />
+		<result property="p_name" column="name" />
+	</resultMap>
+<!-- 根据id查询 -->
+	<select id="selectPermissionbyid"  parameterType="Integer" 
+                                           resultMap="resultPermission">
+		SELECT * FROM permission where id=#{id}
+    </select>
+	<select id="selectallPermissionList" resultMap="resultPermission">
+		SELECT * FROM permission
+	</select>
+</mapper>

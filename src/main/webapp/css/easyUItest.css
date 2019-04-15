@@ -1,0 +1,34 @@
+.top{
+	width: 1480px;
+}
+.navbar-top{
+	height:50px;
+	background:#f7f7f7;
+}
+.loge-img{
+	height:50px;
+	width:110px;
+}
+.loge-left{
+	padding:0px;
+}
+.west{
+	width:240px;
+}
+.west-model{
+	cursor:pointer;
+	background: #4e98fa;
+	text-align: center;
+	height:50px;
+	color:#fff;
+	font: 16px ;
+	font-weight: bold;
+	line-height: 50px;
+	border-radius:15px;
+	border:#fff solid 1px;
+}
+.south{
+	height:36px;
+	text-align: center;
+	overflow: hidden;
+}

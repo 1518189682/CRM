@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.junhuan.dao.CustomerMapper">
+<!-- 	<resultMap type="Customer" id="CustomerResult">
+	        <result property="id" column="id" />
+	        <result property="name" column="name" />
+	        <result property="sex" column="sex" />
+	        <result property="phone" column="phone" />
+	        <result property="email" column="email" />
+	        <result property="weixin" column="weixin" />
+	        <result property="idCard" column="idCard" />
+	        <result property="date" column="date" />
+	</resultMap> -->
+	<!-- 查询所有customer -->
+	<select id="queryAll" resultType="Customer">
+		select * from customer order by dateChange desc
+	</select>
+	<!-- 分页查询 -->
+	<select id="selForPage" resultType="Customer">
+		select * from customer order by dateChange desc limit #{currentResult},#{pageSize} 
+	</select>
+	<!--条件查询-->
+	<select id="selByTerm" parameterType="Customer" resultType="Customer">
+		select * from customer where
+			<if test="name!=null and name!=''">
+				name like '%${name}%' and 
+			</if>
+			<if test="sex!=null and sex!=''">
+				sex = '${sex}' and 
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone like '%${phone}%' and 
+			</if>
+			<if test="weixin!=null and weixin!=''">
+				weixin like '%${weixin}%' and
+			</if>
+			<if test="dateChange!=null and dateChange!=''">
+				dateChange = '${dateChange}' and
+			</if>
+		1 = 1 order by dateChange desc
+	</select>
+	<!-- 增加 -->
+	<insert id="addCustomer" parameterType="Customer">
+		insert into customer(name,sex,phone,weixin,email,idCard,date,dateChange) values(#{name},#{sex},#{phone},#{weixin},#{email},#{idCard},#{date},#{dateChange})
+	</insert>
+	<!-- 根据id查询信息 -->
+	<select id="selById" resultType="Customer" parameterType="java.lang.Integer">
+		select * from customer where id = #{id}
+	</select>
+	<!-- 更新客户信息 -->
+	<update id="updateCustomer" parameterType="Customer">
+		update customer 
+		<trim prefix="set" suffixOverrides=",">
+	        <if test="name!=null and name!=''">
+				name = #{name},
+			</if>
+			<if test="sex!=null and sex!=''">
+				sex = #{sex},
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone = #{phone},
+			</if>
+			<if test="weixin!=null and weixin!=''">
+				weixin = #{weixin},
+			</if>
+			<if test="email!=null and email!=''">
+				email = #{email},
+			</if>
+			<if test="idCard!=null and idCard!=''">
+				idCard = #{idCard},
+			</if>
+			    dateChange = #{dateChange},
+    	</trim>
+    	where id = #{id}
+	</update>
+	<!-- 删除(可以批量)客户信息 -->
+	<delete id="delCustomer" parameterType="int[]">
+		delete from customer where id in
+		<foreach collection="array" item="arr" index="id" open="("
+			separator="," close=")">
+			#{arr}
+		</foreach>
+	</delete>
+</mapper>

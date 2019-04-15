@@ -1,0 +1,51 @@
+.navbar-top{
+	height:60px;
+	padding-top:0px;
+}
+.img{
+	display:block;
+	height:60px;
+	width: 120px;
+}
+.main{
+	height: 500px;
+	margin-top: 150px;
+}
+.loge{
+	padding-top:150px;
+}
+.right{
+	padding-top:200px;
+}
+.navbar-buttom{
+	text-align: center;
+}
+.btn{
+	color:#337ab7;
+}
+.canvasBox{
+    position: relative;
+    margin-top: 2px;
+    padding-left:0px;
+    padding-right: 0px; 
+}
+.canvasBox .imgBox{
+    width:100px;
+    height:30px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    overflow: hidden;
+}
+.canvasBox .refresh{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+    background-size: 100%;
+    border: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-left: 3px;
+}

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.junhuan.dao.StaffDao">
+	<resultMap type="Staff" id="resultStaff">
+		<id property="id" column="id" />
+		<result property="u_name" column="u_name" />
+		<result property="u_sex" column="u_sex" />
+		<result property="u_phone" column="u_phone" />
+		<result property="u_weixin" column="u_weixin" />
+		<result property="u_email" column="u_email" />
+		<result property="username" column="username" />
+		<result property="date" column="date" />
+		<result property="u_idcard" column="u_idcard" />
+		<association property="jobs" column="jobs_id"
+			javaType="Jobs" select="com.junhuan.dao.JobsDao.selectjobsbyid" />
+		<association property="department" column="department_id"
+			javaType="Jobs" select="com.junhuan.dao.DepartmentDao.selectDepartmentbyid" />
+		<association property="permission" column="permission_id"
+			javaType="Jobs" select="com.junhuan.dao.PermissionDao.selectPermissionbyid" />
+	</resultMap>
+	<!-- 查询员工列表 -->
+	<select id="selectallstaffList" resultMap="resultStaff">
+		SELECT * FROM staff
+	</select>
+	<!-- 添加员工 -->
+	<insert id="createstaff" parameterType="Staff">
+	    insert into staff(
+	                     u_name,
+	                     u_sex,
+	                     u_phone,
+	                     u_weixin,
+	                     u_email,
+	                     username,
+	                     password,
+	                     date,
+	                     u_idcard,
+	                     jobs_id,
+	                     department_id,
+	                     permission_id
+	             )
+	             values(#{u_name},
+	                    #{u_sex},
+	                    #{u_phone},
+	                    #{u_weixin},
+	                    #{u_email},
+	                    #{username},
+	                    #{password},
+	                    #{date},
+	                    #{u_idcard},
+	                    #{jobs.id},
+	                    #{department.id},
+	                    #{permission.id}
+	            )
+	</insert>
+		<!-- 删除员工 -->
+	<delete id="deletestaff" parameterType="Integer">
+	    delete from staff where id=#{id}
+	</delete>
+		<!-- 根据id获取信息 -->
+	<select id="getstaffById" parameterType="Integer" 
+	resultMap="resultStaff">
+	    select * from staff where id = #{id}
+	</select>
+	<!-- 更新 -->
+	<update id="updatestaff" parameterType="Staff">
+	    update staff
+	    <set>
+	        <if test="u_name!=null">
+	            u_name=#{u_name},
+	        </if>
+	        <if test="u_sex!=null">
+	            u_sex=#{u_sex},
+	        </if>
+	        <if test="u_idcard!=null">
+	            u_idcard=#{u_idcard},
+	        </if>
+	        <if test="u_phone!=null">
+	            u_phone=#{u_phone},
+	        </if>
+	        <if test="u_weixin!=null">
+	            u_weixin=#{u_weixin},
+	        </if>
+	        <if test="u_email!=null">
+	            u_email=#{u_email},
+	        </if>
+	        <if test="username!=null">
+	            username=#{username},
+	        </if>
+	        <if test="password!=null">
+	            password=#{password},
+	        </if>
+	        <if test="jobs!=null">
+	            jobs_id=#{jobs.id},
+	        </if>
+	        <if test="department!=null">
+	            department_id=#{department.id},
+	        </if>
+	        <if test="permission!=null">
+	            permission_id=#{permission.id},
+	        </if>
+	        <if test="date!=null">
+	            date=#{date},
+	        </if>
+	    </set>
+	    where id=#{id}
+	</update>
+	    <!--SQL片段  -->
+    <sql id="selectstaffListWhere">
+        <where>
+	       <if test="u_name != null" >
+	           u_name like "%"#{u_name}"%"
+	       </if>
+	       <if test="u_phone != null" >
+	        and u_phone like "%"#{u_phone}"%"
+	       </if>
+	       <if test="department != null" >
+	        and department_id = #{department.id}
+	       </if>
+	       <if test="u_sex != null" >
+	        and u_sex = #{u_sex}
+	       </if>
+        </where>
+    </sql>
+	<!-- 查询员工列表  -->
+	<select id="selectstaffList" parameterType="Staff" 
+                                           resultMap="resultStaff">
+        SELECT * from staff
+		<include refid="selectstaffListWhere"/>
+		<!-- 执行分页查询 -->
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+</mapper>

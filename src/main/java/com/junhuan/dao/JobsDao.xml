@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.junhuan.dao.JobsDao">
+<resultMap type="Jobs" id="resultJobs">
+		<id property="id" column="id" />
+		<result property="j_no" column="no" />
+		<result property="j_name" column="name" />
+	</resultMap>
+	<!-- 根据id查询 -->
+	<select id="selectjobsbyid"  parameterType="Integer" 
+                                           resultMap="resultJobs">
+		SELECT * FROM jobs where id=#{id}
+    </select>
+	<select id="selectalljobsList" resultMap="resultJobs">
+		SELECT * FROM jobs
+	</select>
+	<!-- 创建岗位 -->
+	<insert id="createjobs" parameterType="Jobs">
+		insert into
+		jobs(
+		no,
+		name
+		)
+		values(#{j_no},
+		#{j_name}
+		)
+	</insert>
+	<!-- 删除岗位 -->
+	<delete id="deleteJobs" parameterType="Integer">
+			delete from jobs where id=#{id}
+	</delete>
+	<!-- 根据ID获取信息 -->
+  	<select id="getJobsById" parameterType="Integer" 
+	resultMap="resultJobs">
+	    select * from jobs where id = #{id}
+	</select>
+	<!-- 更新 岗位 -->
+	<update id="updateJobs" parameterType="Jobs">
+	    update jobs
+	    <set>
+	        <if test="j_no!=null">
+	            no=#{j_no},
+	        </if>
+	        <if test="j_name!=null">
+	            name=#{j_name},
+	        </if>
+	    </set>
+	    where id=#{id}
+	</update>
+</mapper>
